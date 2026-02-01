@@ -25,6 +25,12 @@ chatgptlog.txt
 *.swp
 *.swo
 
+# Environment files
+.env
+*.env
+.env.local
+.env.*.local
+
 # OS
 .DS_Store
 Thumbs.db

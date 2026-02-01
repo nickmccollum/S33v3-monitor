@@ -9,10 +9,10 @@ services:
     environment:
       DOCKER_INFLUXDB_INIT_MODE: setup
       DOCKER_INFLUXDB_INIT_USERNAME: admin
-      DOCKER_INFLUXDB_INIT_PASSWORD: ${INFLUX_PASSWORD:-changeme123}
+      DOCKER_INFLUXDB_INIT_PASSWORD: ${INFLUX_PASSWORD}
       DOCKER_INFLUXDB_INIT_ORG: home
       DOCKER_INFLUXDB_INIT_BUCKET: modem
-      DOCKER_INFLUXDB_INIT_ADMIN_TOKEN: ${INFLUX_TOKEN:-my-super-secret-token}
+      DOCKER_INFLUXDB_INIT_ADMIN_TOKEN: ${INFLUX_TOKEN}
     volumes:
       - influxdb-data:/var/lib/influxdb2:Z
       - influxdb-config:/etc/influxdb2:Z
@@ -30,7 +30,7 @@ services:
       - "3000:3000"
     environment:
       GF_SECURITY_ADMIN_USER: admin
-      GF_SECURITY_ADMIN_PASSWORD: ${GRAFANA_PASSWORD:-admin}
+      GF_SECURITY_ADMIN_PASSWORD: ${GRAFANA_PASSWORD}
       GF_INSTALL_PLUGINS: ""
     volumes:
       - grafana-data:/var/lib/grafana:Z
@@ -48,7 +48,7 @@ services:
       MODEM_USER: ${MODEM_USER:-admin}
       MODEM_PASSWORD: ${MODEM_PASSWORD}
       INFLUX_URL: http://influxdb:8086
-      INFLUX_TOKEN: ${INFLUX_TOKEN:-my-super-secret-token}
+      INFLUX_TOKEN: ${INFLUX_TOKEN}
       INFLUX_ORG: home
       INFLUX_BUCKET: modem
       POLL_INTERVAL_SECONDS: ${POLL_INTERVAL:-300}

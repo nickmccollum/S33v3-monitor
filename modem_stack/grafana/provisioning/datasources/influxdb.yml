@@ -11,7 +11,11 @@ datasources:
       defaultBucket: modem
       tlsSkipVerify: true
     secureJsonData:
-      # IMPORTANT: Update this token to match your INFLUX_TOKEN in .env
-      token: my-super-secret-token
+      # IMPORTANT: Replace this placeholder with your actual INFLUX_TOKEN from .env
+      # Grafana provisioning doesn't support env var substitution, so you must:
+      # 1. Copy your INFLUX_TOKEN from .env
+      # 2. Replace "REPLACE_WITH_YOUR_INFLUX_TOKEN" below
+      # 3. Or configure the datasource manually in Grafana UI (editable: true allows this)
+      token: REPLACE_WITH_YOUR_INFLUX_TOKEN
     isDefault: true
     editable: true
