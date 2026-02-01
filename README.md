@@ -121,7 +121,7 @@ Tags: `level` (Critical/Warning/Notice)
 ## Project Structure
 
 ```
-uptime_monitor/
+S33v3-monitor/
 ├── modem_stack/                 # Production deployment
 │   ├── docker-compose.yml       # Container orchestration
 │   ├── env.example              # Environment template
