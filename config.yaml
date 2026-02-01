@@ -1,0 +1,33 @@
+# Uptime Monitor Configuration
+
+# How often to ping targets (in seconds)
+check_interval: 60
+
+# Ping timeout in seconds
+ping_timeout: 4
+
+# Number of retries on ping failure (reduces false negatives)
+ping_retries: 2
+
+# Path to SQLite database file
+database_path: uptime.db
+
+# Targets to monitor
+# Add or remove entries as needed
+targets:
+  - address: 8.8.8.8
+    name: Google DNS
+    enabled: true
+  
+  - address: 1.1.1.1
+    name: Cloudflare DNS
+    enabled: true
+  
+  - address: 9.9.9.9
+    name: Quad9 DNS
+    enabled: true
+  
+  - address: 208.67.222.222
+    name: OpenDNS
+    enabled: true
+

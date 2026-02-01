@@ -1,0 +1,65 @@
+version: "3.8"
+
+services:
+  influxdb:
+    image: influxdb:2.7
+    container_name: influxdb
+    ports:
+      - "8086:8086"
+    environment:
+      DOCKER_INFLUXDB_INIT_MODE: setup
+      DOCKER_INFLUXDB_INIT_USERNAME: admin
+      DOCKER_INFLUXDB_INIT_PASSWORD: ${INFLUX_PASSWORD:-changeme123}
+      DOCKER_INFLUXDB_INIT_ORG: home
+      DOCKER_INFLUXDB_INIT_BUCKET: modem
+      DOCKER_INFLUXDB_INIT_ADMIN_TOKEN: ${INFLUX_TOKEN:-my-super-secret-token}
+    volumes:
+      - influxdb-data:/var/lib/influxdb2:Z
+      - influxdb-config:/etc/influxdb2:Z
+    healthcheck:
+      test: ["CMD", "curl", "-fsS", "http://localhost:8086/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 12
+    restart: unless-stopped
+
+  grafana:
+    image: grafana/grafana:latest
+    container_name: grafana
+    ports:
+      - "3000:3000"
+    environment:
+      GF_SECURITY_ADMIN_USER: admin
+      GF_SECURITY_ADMIN_PASSWORD: ${GRAFANA_PASSWORD:-admin}
+      GF_INSTALL_PLUGINS: ""
+    volumes:
+      - grafana-data:/var/lib/grafana:Z
+      - ./grafana/provisioning:/etc/grafana/provisioning:Z
+    depends_on:
+      influxdb:
+        condition: service_healthy
+    restart: unless-stopped
+
+  collector:
+    build: ./collector
+    container_name: modem-collector
+    environment:
+      MODEM_HOST: ${MODEM_HOST:-192.168.100.1}
+      MODEM_USER: ${MODEM_USER:-admin}
+      MODEM_PASSWORD: ${MODEM_PASSWORD}
+      INFLUX_URL: http://influxdb:8086
+      INFLUX_TOKEN: ${INFLUX_TOKEN:-my-super-secret-token}
+      INFLUX_ORG: home
+      INFLUX_BUCKET: modem
+      POLL_INTERVAL_SECONDS: ${POLL_INTERVAL:-300}
+    depends_on:
+      influxdb:
+        condition: service_healthy
+    # For podman: if modem isn't reachable, use host network
+    # network_mode: host
+    restart: unless-stopped
+
+volumes:
+  influxdb-data: {}
+  influxdb-config: {}
+  grafana-data: {}
