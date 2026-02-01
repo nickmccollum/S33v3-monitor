@@ -4,6 +4,17 @@ A monitoring solution for the **Arris Surfboard S33v3** cable modem that collect
 
 > **Note**: This is specifically designed for the Arris Surfboard S33v3 modem. Other Arris models may use similar HNAP protocols but are not tested.
 
+### Quick Test Before Setup
+
+Before setting up the full monitoring stack, you can test connectivity with your modem using the standalone `modem_poc.py` script. This allows you to verify that your modem is reachable and that authentication works correctly before deploying the full Docker Compose stack.
+
+```bash
+export MODEM_PASSWORD='your-modem-password'
+python3 modem_poc.py
+```
+
+This will authenticate with your modem and display channel statistics and event logs. If this works, you're ready to set up the full monitoring stack!
+
 ## Features
 
 - **Downstream Channel Monitoring**: SNR, power levels, correctable/uncorrectable errors for all 32 channels
